@@ -3,13 +3,15 @@ kind: Config
 manifests:
   rawYaml:
     - './infra/k8s/ingress-srv.yaml'
+    - './infra/k8s/elasticsearch-depl.yaml'
+    - './infra/k8s/client-depl.yaml'
     - './infra/k8s/server-depl.yaml'
 build:
   local:
     push: false
   artifacts:
     - image: amansinghs/chatbot-server
-      context: leaderboard
+      context: server
       docker:
         dockerfile: Dockerfile
       sync:
