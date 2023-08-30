@@ -1,0 +1,26 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+manifests:
+  rawYaml:
+    - './infra/k8s/ingress-srv.yaml'
+    - './infra/k8s/server-depl.yaml'
+build:
+  local:
+    push: false
+  artifacts:
+    - image: amansinghs/chatbot-server
+      context: leaderboard
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: amansinghs/chatbot-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
