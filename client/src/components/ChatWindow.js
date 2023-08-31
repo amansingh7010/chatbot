@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const ChatWindow = () => {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current && !isLoading) {
+      inputRef.current.focus();
+    }
+  }, [isLoading]);
 
   const handleSend = async () => {
     setIsLoading(true);
@@ -59,6 +66,7 @@ const ChatWindow = () => {
 
         <div className="mt-4 flex">
           <input
+            ref={inputRef}
             className={`flex-grow p-2 rounded-l bg-gray-800 text-white ${
               isLoading ? 'cursor-not-allowed opacity-50' : ''
             }`}
