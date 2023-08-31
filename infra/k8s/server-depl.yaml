@@ -18,6 +18,11 @@ spec:
           env:
             - name: ELASTIC_SEARCH_URI
               value: 'http://elasticsearch-srv:9200'
+            - name: HF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hf-api-key
+                  key: HF_API_KEY
 
 ---
 apiVersion: v1

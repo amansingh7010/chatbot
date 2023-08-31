@@ -3,14 +3,12 @@ import { app } from './app';
 const start = async () => {
   console.log('Starting up...');
 
-  if (!process.env.ELASTIC_SEARCH_URI) {
-    throw new Error('ELASTIC_SEARCH_URI must be defined');
+  if (!process.env.HF_API_KEY) {
+    throw new Error('HF_API_KEY not found');
   }
 
-  try {
-    console.log(process.env.ELASTIC_SEARCH_URI);
-  } catch (err) {
-    console.log(err);
+  if (!process.env.ELASTIC_SEARCH_URI) {
+    throw new Error('ELASTIC_SEARCH_URI must be defined');
   }
 
   app.listen(3000, () => {
