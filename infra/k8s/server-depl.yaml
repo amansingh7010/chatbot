@@ -15,6 +15,9 @@ spec:
       containers:
         - name: server
           image: amansinghs/chatbot-server
+          env:
+            - name: ELASTIC_SEARCH_URI
+              value: 'http://elasticsearch-srv:9200'
 
 ---
 apiVersion: v1
