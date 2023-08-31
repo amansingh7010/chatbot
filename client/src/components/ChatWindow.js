@@ -34,7 +34,7 @@ const ChatWindow = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto p-4">
-        <div className="flex items-centerr">
+        <div className="flex items-center">
           <h1 className="text-2xl mb-4">🤖 Jarvis</h1>
         </div>
         <div className="chat-box border rounded p-4 bg-gray-800 h-64 overflow-y-auto relative">
