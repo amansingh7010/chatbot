@@ -4,8 +4,10 @@ import axios from 'axios';
 const ChatWindow = () => {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
+    setIsLoading(true);
     const response = await axios.post(
       'https://chatbot.amansingh.dev/api/chat',
       {
@@ -15,16 +17,27 @@ const ChatWindow = () => {
     setChatHistory([
       ...chatHistory,
       { message: userInput, type: 'user' },
-      { message: response.data.message, type: 'bot' },
+      { message: response.data.botResponse, type: 'bot' },
     ]);
+
+    setIsLoading(false);
+
     setUserInput('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl mb-4">Chatbot</h1>
-        <div className="chat-box border rounded p-4 bg-gray-800 h-64 overflow-y-auto">
+        <div className="flex items-centerr">
+          <h1 className="text-2xl mb-4">🤖 Jarvis</h1>
+        </div>
+        <div className="chat-box border rounded p-4 bg-gray-800 h-64 overflow-y-auto relative">
           {chatHistory.map((chat, index) => (
             <div
               key={index}
@@ -35,18 +48,33 @@ const ChatWindow = () => {
               {chat.message}
             </div>
           ))}
+          {isLoading && (
+            <div className="absolute bottom-4 left-4 flex space-x-2">
+              <div className="animate-ping h-2 w-2 rounded-full bg-blue-400 opacity-75"></div>
+              <div className="animate-ping-delay h-2 w-2 rounded-full bg-blue-400 opacity-75"></div>
+              <div className="animate-ping-delay2 h-2 w-2 rounded-full bg-blue-400 opacity-75"></div>
+            </div>
+          )}
         </div>
+
         <div className="mt-4 flex">
           <input
-            className="flex-grow p-2 rounded-l bg-gray-800 text-white"
+            className={`flex-grow p-2 rounded-l bg-gray-800 text-white ${
+              isLoading ? 'cursor-not-allowed opacity-50' : ''
+            }`}
             type="text"
             placeholder="Type your message..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading}
           />
           <button
-            className="p-2 rounded-r bg-blue-500 hover:bg-blue-700"
+            className={`p-2 rounded-r bg-blue-500 hover:bg-blue-700 ${
+              isLoading ? 'cursor-not-allowed opacity-50' : ''
+            }`}
             onClick={handleSend}
+            disabled={isLoading}
           >
             Send
           </button>
