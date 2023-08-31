@@ -2,10 +2,6 @@
 
 A chatbot that uses HuggingFace GPT-2 model and ElasticSearch Vector DB
 
-## Deployment
-
-### https://chatbot.amansingh.dev
-
 ## About the project
 
 This chatbot is built on a microservice architecture with two microservices: `client` and `server`, managed by Docker and Kubernetes. The development workflow is overseen by Skaffold (https://skaffold.dev), which handles the processes of building, pushing, and deploying our application.
@@ -44,7 +40,9 @@ The following development tools must be installed (in the same order) on your ma
 
 Skaffold will automatically create the required `Deployments` and `Services`. If you edit any file, it will re-deploy the latest changes. See `skaffold.yaml` for details.
 
-Note: There is a known bug with Skaffold where the deployments fail to stabilize sometimes. (https://github.com/GoogleContainerTools/skaffold/issues/8972). Just add `"--tolerate-failures-until-deadline"` flag with `"skaffold dev"` command.
+Note 1: Elasticsearch deployment on Kubernetes cluster takes 10-30 seconds to stabilize. After the server is up and running, please give it a minute before making any request. Otherwise, the request will simply fail.
+
+Note 2: There is a known bug with Skaffold where the deployments fail to stabilize sometimes. (https://github.com/GoogleContainerTools/skaffold/issues/8972). Just add `"--tolerate-failures-until-deadline"` flag with `"skaffold dev"` command.
 
 <pre>skaffold dev --tolerate-failures-until-deadline</pre>
 
@@ -74,3 +72,5 @@ Note: There is a known bug with Skaffold where the deployments fail to stabilize
 ## Suggested Improvements
 
 1. Data is only being saved in ElasticSearch vector DB. Use the saved data to respond to user messages.
+2. Considering that I only spent 3-4 hours on this, the bot responses are kinda 'dumb'. So, they can definitely be improved.
+3. Better error handling on the front-end.
